@@ -1,0 +1,17 @@
+Proyecto Pizza:
+
+- El proyecto no se ha podido finalizar por falta de tiempo.
+- A continuación indico pasos realizados:
+	- crear BD y tablas 
+	- Descargar plantilla para la administración_
+	- url administracion: sitioweb.com/login
+		- user: admin@argon.com
+		- passwrd: secret
+	- Opción Ingredientes :
+		- Implementado: listado, creación y eliminación
+	- Opcion Pizzas: 
+		- Implementado: listado, creación: sólo se ha podido realizar inserción nombre + imagen.
+			- Por falta de tiempo he optado por poner una url en la imagen. Esto se cambiaría
+			  por un campo multipart.
+		- Se pueden elegir los indgredientes dentro de un combo box.
+	- El sitio de administración lleva implementado un middleware en previsión de añadir roles a la aplicación
