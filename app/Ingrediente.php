@@ -14,4 +14,12 @@ class Ingrediente extends Model
     protected $fillable = [
         'ing_nombre', 'ing_precio' 
     ];
+
+    
+    public function pizzas() {
+   		return $this->belongsToMany('App\Pizza', 'pizza_ingredientes', 'pizing_idIngrediente', 'pizing_idPizza');
+   }
+   
+
+
 }

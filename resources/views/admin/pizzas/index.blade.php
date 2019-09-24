@@ -38,7 +38,8 @@
                                 <tr>
                                     <th scope="col">Id</th>                                    
                                     <th scope="col">Pizza</th> 
-                                    <th scope="col">Ingredientes</th>                                                                         
+                                    <th scope="col">Ingredientes</th>
+                                    <th scope="col">Precio</th>                                                                         
                                     <th scope="col">Alta</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -48,7 +49,12 @@
                                     <tr>
                                         <td>{{$pizza->piz_id}}</td>
                                         <td>{{$pizza->piz_nombre}}</td>
-                                        <td>xxxxx </td>
+                                        <td>
+                                            @foreach($pizza->ingredientes as $ingrediente) 
+                                                {{ $ingrediente->ing_nombre }} <br/>
+                                            @endforeach
+                                        </td>
+                                        <td>{{$pizza->piz_precio}} </td>
                                         <td>{{$pizza->updated_at}}</td>
                                         <!--------------------- -->
                                         <td class="text-right">

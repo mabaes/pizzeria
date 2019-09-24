@@ -17,6 +17,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/mostrarPizzas', 'Admin\PizzaController@mostrarPizzas')->name('mostrarPizzas');
 
 Route::group(['middleware' => 'auth'], function () {
 	

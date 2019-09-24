@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Pizza;
 use App\Ingrediente;
+use App\PizzaIngrediente;
 use DateTime;
 
 class PizzaController extends Controller
@@ -19,7 +20,7 @@ class PizzaController extends Controller
     {
         //
         //listado de ingredientes
-        $model = Pizza::get();
+        $model = Pizza::with('ingredientes')->get(); 
         //dd($model);
         return view('admin.pizzas.index', ['pizzas' => $model]);
     }
@@ -57,27 +58,36 @@ class PizzaController extends Controller
         // guardamos el nombre de la pizza
         $pizza = new Pizza();
         $pizza->piz_nombre = $request->get('piz_nombre');
-        $pizza->piz_imagen = $request->get('piz_imagen');
-        //$pizza->piz_precio = $request->get('ing_precio');
+        $pizza->piz_imagen = $request->get('piz_imagen');        
         $pizza -> save();
         $new_pizza = $pizza->piz_id;
-        dd($new_pizza);
+        //dd($new_pizza);
 
         // obtenemos listado de precios
         $array_ingre = $request->get('ing_id');      
         $array_update = [];
         $i=0;
 
-        /*creamos array para insertar los ingredientes*/
-        /* y obtenemos los precios para calcular de forma automática el precio de las pizzas */
-        /*por falta de tiempo no se ha podido implementar hasta el final*/
-        /*
-        $mydate = Carbon::now()->format('Y-m-d H:i:s');
-        foreach($array_ingre as $key => $value){
-            array_push( $array_update, array('pizing_idIngrediente'=>$array_ingre[$key], 'pizing_idPizza'=>$new_pizza, 'created_at'=>$mydate,'updated_at'=>$mydate));
-            $i++;
+        /*********** terminada la inserción de ingredientes *****************/
+        $ingredientesAdd = Pizza::find($new_pizza);
+        $ingredientesAdd->ingredientes()->attach($array_ingre);
+        
+        
+        /*obtenemos el precio*/
+        $ingredientesPrecio = Ingrediente::whereIn('ing_id',$array_ingre)->get();
+        $precio =0;
+        foreach($ingredientesPrecio as $ingre){
+            $precio = $precio + $ingre->ing_precio;
         }
-        */
+
+        $precioIncremento = $precio*0.5;
+        $precioFinal = $precio + $precioIncremento;
+
+        //actualizamos el precio de la pizza:
+        $pizza = Pizza::where('piz_id', $new_pizza)
+                ->update(['piz_precio' => $precioFinal]);
+   
+        
 
 
         return redirect()->route('pizzas.index')->withStatus(__('Pizza creado correctamente.'));
@@ -128,4 +138,17 @@ class PizzaController extends Controller
     {
         //
     }
+
+    public function mostrarPizzas()
+    {
+      
+        $model = Pizza::with('ingredientes')->get();
+             
+        return response()->json([
+            $model
+        ], 200);
+        
+
+    }
+    
 }

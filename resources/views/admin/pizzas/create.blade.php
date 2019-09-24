@@ -60,7 +60,7 @@
                                         <select class="selectpicker form-control" name="ing_id[]" id="ing_id" multiple multiple data-style="form-control">
                                             <option value="0">Selec. Ingredientes: </option>
                                              @foreach($ingredientes as $ingrediente)                                                                                           
-                                                <option value="{{ $ingrediente->ing_id }}" >{{ $ingrediente->ing_nombre  }} </option>
+                                                <option value="{{ $ingrediente->ing_id }}" data-subtext="{{ $ingrediente->ing_precio }} €" >{{ $ingrediente->ing_nombre  }} </option>
                                              @endforeach
 
                                         </select>
